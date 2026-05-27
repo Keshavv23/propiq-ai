@@ -6,11 +6,17 @@ from app.models.orm import Listing, Lead
 import json
 
 # ── LLM setup ────────────────────────────────────────────────
-llm = ChatGroq(
-    api_key=settings.groq_api_key,
-    model_name="llama-3.3-70b-versatile",
-    temperature=0.4,
-)
+_llm = None
+
+def get_llm():
+    global _llm
+    if _llm is None:
+        _llm = ChatGroq(
+            api_key=settings.groq_api_key,
+            model_name="llama-3.3-70b-versatile",
+            temperature=0.4,
+        )
+    return _llm
 
 SYSTEM_PROMPT = """You are PropIQ, an intelligent real estate assistant for the Indian property market.
 Your job is to help buyers find the right property by having a natural conversation.
