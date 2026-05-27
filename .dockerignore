@@ -1,0 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+.git/
+.github/
+chroma_store/
+*.egg-info/
+.pytest_cache/
+node_modules/
+frontend/.next/
+frontend/node_modules/
