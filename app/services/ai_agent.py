@@ -163,7 +163,7 @@ class PropIQAgent:
         messages.append(HumanMessage(content=user_message))
 
         # call Groq
-        response = llm.invoke(messages)
+        response = get_llm().invoke(messages)
         response_text = response.content
 
         # save to history
