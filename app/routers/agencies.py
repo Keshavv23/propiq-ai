@@ -99,7 +99,10 @@ def get_agency_leads(agency_id: str, db: Session = Depends(get_db)):
         Listing.agency_id == agency_id
     ).all()]
 
-    leads = db.query(Lead).filter(Lead.listing_id.in_(listing_ids)).all()
+    # get leads linked to this agency's listings OR unlinked leads
+    leads = db.query(Lead).filter(
+        (Lead.listing_id.in_(listing_ids)) | (Lead.listing_id == None)
+    ).all()
 
     return {
         "agency": agency.name,
