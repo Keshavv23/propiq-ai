@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
-from app.routers import listings, agencies, leads, chat, search, webhook
+from app.routers import listings, agencies, leads, chat, search, webhook, whatsapp
 
 try:
     Base.metadata.create_all(bind=engine)
@@ -28,6 +28,8 @@ app.include_router(leads.router, prefix="/leads", tags=["leads"])
 app.include_router(chat.router, prefix="/chat", tags=["ai-agent"])
 app.include_router(search.router, prefix="/search", tags=["semantic-search"])
 app.include_router(webhook.router, prefix="/webhook", tags=["webhook"])
+app.include_router(whatsapp.router, prefix="/webhook", tags=["whatsapp"])
+
 @app.get("/health")
 def health():
     return {"status": "ok", "service": "PropIQ AI"}
