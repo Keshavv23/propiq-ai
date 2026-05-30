@@ -21,15 +21,20 @@ def verify_webhook(
 async def whatsapp_webhook(request: Request):
     try:
         body = await request.body()
+        print(f"Raw body: {body}")
         if not body:
+            print("Empty body received")
             return {"status": "ok"}
-        data = await request.json()
+        import json
+        data = json.loads(body)
+        print(f"Parsed data: {data}")
         entry = data.get("entry", [])
         for e in entry:
             for change in e.get("changes", []):
                 value = change.get("value", {})
                 messages = value.get("messages", [])
                 for msg in messages:
+                    print(f"Processing message: {msg}")
                     if msg.get("type") == "text":
                         phone = msg["from"]
                         text = msg["text"]["body"]
@@ -37,4 +42,6 @@ async def whatsapp_webhook(request: Request):
                         handle_whatsapp_message(phone, text)
     except Exception as ex:
         print(f"WhatsApp webhook error: {ex}")
+        import traceback
+        traceback.print_exc()
     return {"status": "ok"}
